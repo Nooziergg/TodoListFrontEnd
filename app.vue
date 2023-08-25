@@ -30,7 +30,7 @@
       </draggable>
     </div>
     <div class="w-full flex">
-      <New class="mx-auto my-12" @addNew="showModalAddFor" />
+      <New class="mx-auto my-6" @addNew="showModalAddFor" />
     </div>
     <LayoutFooter />
   </div>
@@ -154,7 +154,14 @@ const updateOrder = (event) => {
   overflow: auto;
   height: calc(100vh - 300px);
 }
+
 .card {
-  height: calc((100vh - 300px) / 3.5);
+  height: calc((100vh - 300px) / 1.5);
+}
+
+@media (min-width: 385px) {
+  .card {
+    height: calc((100vh - 300px) / 3.5);
+  }
 }
 </style>
