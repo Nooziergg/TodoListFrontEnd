@@ -96,6 +96,13 @@ const closeModal = () => {
   emits("close");
 };
 
+const cleanForm = () => {
+  localNome.value = "";
+  localCusto.value = "";
+  localDataLimite.value = "";
+  submitAttempted.value = false;
+};
+
 const emitAdd = async () => {
   v$.value.$touch();
   submitAttempted.value = true;
@@ -107,6 +114,7 @@ const emitAdd = async () => {
         custo: parseFloat(localCusto.value) || 0,
         dataLimite: localDataLimite.value,
       });
+      cleanForm();
       closeModal();
     } catch (error) {
       // Handle the error, e.g., show a toast or a message
