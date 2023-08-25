@@ -32,6 +32,7 @@
 
       <input
         v-model="localDataLimite"
+        type="date"
         class="input input-bordered w-full my-2"
         :class="{
           'border-red-500': v$.localDataLimite.$invalid && submitAttempted,
@@ -61,9 +62,8 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
 import { useVuelidate } from "@vuelidate/core";
-import { required, between, helpers } from "@vuelidate/validators";
+import { required, between } from "@vuelidate/validators";
 
 const props = defineProps({
   show: Boolean,
@@ -76,9 +76,12 @@ const localCusto = ref("");
 const localDataLimite = ref("");
 const submitAttempted = ref(false);
 
+// Access the date function from Nuxt
+const { $date } = useNuxtApp();
+
 function isDateValid(value) {
   const pattern = /^\d{2}\/\d{2}\/\d{4}$/;
-  return pattern.test(value);
+  return pattern.test($date(value));
 }
 
 const rules = {
@@ -112,7 +115,7 @@ const emitAdd = async () => {
       emits("add", {
         nome: localNome.value,
         custo: parseFloat(localCusto.value) || 0,
-        dataLimite: localDataLimite.value,
+        dataLimite: $date(localDataLimite.value), // format the date using the $date function
       });
       cleanForm();
       closeModal();

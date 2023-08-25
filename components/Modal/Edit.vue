@@ -25,6 +25,7 @@
 
       <input
         v-model="localDataLimite"
+        type="date"
         class="input input-bordered w-full my-2"
         :class="{ 'border-red-500': v$.localDataLimite.$invalid }"
         placeholder="Deadline (DD/MM/YYYY))"
@@ -47,7 +48,10 @@
 <script setup>
 import { ref, watchEffect } from "vue";
 import { useVuelidate } from "@vuelidate/core";
-import { required, between, helpers } from "@vuelidate/validators";
+import { required, between } from "@vuelidate/validators";
+
+// Access the date function from Nuxt
+const { $date } = useNuxtApp();
 
 const props = defineProps({
   show: Boolean,
@@ -70,7 +74,7 @@ watchEffect(() => {
 
 function isDateValid(value) {
   const pattern = /^\d{2}\/\d{2}\/\d{4}$/;
-  return pattern.test(value);
+  return pattern.test($date(value));
 }
 
 const rules = {
@@ -95,7 +99,7 @@ const emitData = () => {
       id: props.card.id,
       nome: localNome.value,
       custo: localCusto.value,
-      dataLimite: localDataLimite.value,
+      dataLimite: $date(localDataLimite.value),
       ordemApresentacao: props.card.ordemApresentacao,
     });
     closeModal();
