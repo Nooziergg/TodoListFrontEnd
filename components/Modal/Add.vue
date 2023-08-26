@@ -79,18 +79,11 @@ const submitAttempted = ref(false);
 // Access the date function from Nuxt
 const { $date } = useNuxtApp();
 
-function isDateValid(value) {
-  const pattern = /^\d{2}\/\d{2}\/\d{4}$/;
-  return pattern.test($date(value));
-}
-
+// Validation rules
 const rules = {
   localNome: { required },
   localCusto: { required, between: between(0, 100000000) },
-  localDataLimite: {
-    required,
-    isDate: isDateValid,
-  },
+  localDataLimite: { required },
 };
 
 const v$ = useVuelidate(rules, { localNome, localCusto, localDataLimite });
@@ -115,7 +108,7 @@ const emitAdd = async () => {
       emits("add", {
         nome: localNome.value,
         custo: parseFloat(localCusto.value) || 0,
-        dataLimite: $date(localDataLimite.value), // format the date using the $date function
+        dataLimite: $date(localDataLimite.value),
       });
       cleanForm();
       closeModal();

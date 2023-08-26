@@ -68,22 +68,15 @@ watchEffect(() => {
   if (props.card) {
     localNome.value = props.card.nome;
     localCusto.value = props.card.custo;
-    localDataLimite.value = props.card.dataLimite;
+    localDataLimite.value = $date(props.card.dataLimite, "YYYY-MM-DD");
   }
 });
 
-function isDateValid(value) {
-  const pattern = /^\d{2}\/\d{2}\/\d{4}$/;
-  return pattern.test($date(value));
-}
-
+// Validation rules
 const rules = {
   localNome: { required },
   localCusto: { required, between: between(0, 100000000) },
-  localDataLimite: {
-    required,
-    isDate: isDateValid,
-  },
+  localDataLimite: { required },
 };
 
 const v$ = useVuelidate(rules, { localNome, localCusto, localDataLimite });
