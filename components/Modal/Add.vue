@@ -73,7 +73,7 @@ const emits = defineEmits(["close", "add"]);
 
 const localNome = ref("");
 const localCusto = ref("");
-const localDataLimite = ref("");
+const localDataLimite = ref(new Date().toISOString().split("T")[0]);
 const submitAttempted = ref(false);
 
 // Access the date function from Nuxt
